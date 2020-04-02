@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="main" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:jboss/datasources/CreditCalc</jta-data-source>
+        <class>ru.neoflex.entity.CreditProduct</class>
+        <class>ru.neoflex.entity.PaymentSchedule</class>
+        <class>ru.neoflex.entity.Payments</class>
+        <class>ru.neoflex.entity.User</class>
+        <properties>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+<!--            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/creditCalc"/>-->
+<!--            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>-->
+<!--            <property name="javax.persistence.jdbc.user" value="postgres"/>-->
+<!--            <property name="javax.persistence.jdbc.password" value="15sl02tt"/>-->
+        </properties>
+    </persistence-unit>
+</persistence>
