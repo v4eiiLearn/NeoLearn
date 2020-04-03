@@ -2,8 +2,10 @@ package ru.neoflex.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.neoflex.payments.schema.CreditType;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @Entity
@@ -12,9 +14,10 @@ import java.math.BigDecimal;
         {
         @NamedQuery(name = "findAllCreditProduct", query = "SELECT c FROM CreditProduct c"),
         @NamedQuery(name = "findProductBetweenPriceAndTerm",
-                query = "SELECT c FROM CreditProduct c WHERE (:price BETWEEN minPrice AND maxPrice) AND (:term BETWEEN minTerm AND maxPrice)")
+                query = "SELECT c FROM CreditProduct c WHERE (:price BETWEEN minPrice AND maxPrice) AND (:term BETWEEN minTerm AND maxTerm)"),
+        @NamedQuery(name = "findByProductName", query = "SELECT c FROM  CreditProduct c WHERE productName = :productName")
 })
-
+@Transactional
 public class CreditProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,14 +40,18 @@ public class CreditProduct {
     @Basic(optional = false)
     @Column(name = "min_price")
     @Getter @Setter
-    private BigDecimal minPrice;
+    private Long minPrice;
     @Basic(optional = false)
     @Column(name = "max_price")
     @Getter @Setter
-    private BigDecimal maxPrice;
+    private Long maxPrice;
     @Basic(optional = false)
     @Getter @Setter
     private float percent;
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    @Getter @Setter
+    private CreditType type;
 
     @Override
     public boolean equals(Object o) {
@@ -74,5 +81,10 @@ public class CreditProduct {
         result = 31 * result + (maxPrice != null ? maxPrice.hashCode() : 0);
         result = 31 * result + (percent != +0.0f ? Float.floatToIntBits(percent) : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return productName + " " + percent + " " + type;
     }
 }

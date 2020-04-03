@@ -3,14 +3,15 @@ package ru.neoflex.repository;
 import ru.neoflex.dao.Dao;
 import ru.neoflex.entity.CreditProduct;
 
+import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.math.BigDecimal;
 import java.util.List;
 
 @Stateful
+@LocalBean
 public class CreditProductRepository implements Dao<CreditProduct> {
 
     @PersistenceContext(unitName = "main")
@@ -37,11 +38,17 @@ public class CreditProductRepository implements Dao<CreditProduct> {
         return q.getResultList();
     }
 
-    public List<CreditProduct> findBetweenPriceAndTerm(BigDecimal price, Integer term) {
+    public List<CreditProduct> findBetweenPriceAndTerm(Long price, Integer term) {
         Query q = em.createNamedQuery("findProductBetweenPriceAndTerm", CreditProduct.class);
-        q.setParameter("price", price.floatValue());
+        q.setParameter("price", price);
         q.setParameter("term", term);
         return q.getResultList();
+    }
+
+    public CreditProduct findByName(String productName) {
+        Query q = em.createNamedQuery("findByProductName", CreditProduct.class);
+        q.setParameter("productName", productName);
+        return (CreditProduct) q.getSingleResult();
     }
 
 }

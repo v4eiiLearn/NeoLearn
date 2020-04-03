@@ -8,5 +8,5 @@ import java.util.List;
 
 @Local
 public interface CreditProductService {
-    List<CreditProduct> findSuitableCreditProduct(BigDecimal price, Integer term);
+    List<CreditProduct> findSuitableCreditProduct(Long price, Integer term);
 }

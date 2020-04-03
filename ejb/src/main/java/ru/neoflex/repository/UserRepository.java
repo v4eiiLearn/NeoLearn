@@ -3,11 +3,18 @@ package ru.neoflex.repository;
 import ru.neoflex.dao.Dao;
 import ru.neoflex.entity.User;
 
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.faces.bean.RequestScoped;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
+@Stateless
+@LocalBean
+@RequestScoped
 public class UserRepository implements Dao<User> {
 
     @PersistenceContext(unitName = "main")
@@ -38,4 +45,19 @@ public class UserRepository implements Dao<User> {
         Query q = em.createNamedQuery("findAllUsers", User.class);
         return q.getResultList();
     }
+
+    public User findByLoginAndPassword(String login, String psw) {
+        Query q = em.createNamedQuery("findByLoginAndPassword", User.class);
+        q.setParameter("login", login);
+        q.setParameter("psw", psw);
+        Object singleResult;
+        try {
+            singleResult = q.getSingleResult();
+        }
+        catch (NoResultException e) {
+            return null;
+        }
+        return (User) singleResult;
+    }
+
 }

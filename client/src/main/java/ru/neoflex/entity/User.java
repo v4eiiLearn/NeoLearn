@@ -7,7 +7,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "user", schema = "public", catalog = "creditCalc")
-@NamedQuery(name = "findAllUsers", query = "SELECT u FROM User u")
+@NamedQueries({
+        @NamedQuery(name = "findAllUsers", query = "SELECT u FROM User u"),
+        @NamedQuery(name = "findByLoginAndPassword", query = "SELECT u FROM User u WHERE u.userLogin = :login AND u.userPsw = :psw")
+})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

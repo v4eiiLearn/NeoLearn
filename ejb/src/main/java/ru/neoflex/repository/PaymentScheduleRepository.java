@@ -3,11 +3,14 @@ package ru.neoflex.repository;
 import ru.neoflex.dao.Dao;
 import ru.neoflex.entity.PaymentSchedule;
 
+import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
+@Stateless
 public class PaymentScheduleRepository implements Dao<PaymentSchedule> {
 
     @PersistenceContext
