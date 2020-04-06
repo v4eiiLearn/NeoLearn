@@ -6,7 +6,6 @@ import ru.neoflex.payments.schema.CreditType;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "credit_product", schema = "public", catalog = "creditCalc")

@@ -60,7 +60,7 @@
                             <f:selectItems value="#{ccViewBean.suitableCreditProducts}" var="product"
                                            itemLabel="#{product.productName} #{product.percent} #{product.type.value()}"/>
                         </h:selectOneMenu> <br/>
-                        <h:message for="products"/>
+                        <h:message for="products" style="color: red"/>
                     </h:outputLabel> <br/><br/>
                     <h:outputLabel value="ФИО Клиента" rendered="#{ccViewBean.showIssueFields}">
                         <h:inputText value="#{ccViewBean.clientName}"/>

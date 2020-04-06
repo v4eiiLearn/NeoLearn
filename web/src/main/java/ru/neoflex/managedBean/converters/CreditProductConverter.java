@@ -10,9 +10,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-//@FacesConverter(managed = true, value = "creditConverter", forClass = CreditProduct.class)
 @ManagedBean
 @RequestScoped
+//@FacesConverter(value = "creditConverter", forClass = CreditProduct.class)
 public class CreditProductConverter implements Converter {
 
     @EJB
