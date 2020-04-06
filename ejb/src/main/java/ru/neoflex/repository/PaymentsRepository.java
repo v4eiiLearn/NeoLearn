@@ -3,14 +3,18 @@ package ru.neoflex.repository;
 import ru.neoflex.dao.Dao;
 import ru.neoflex.entity.Payments;
 
+import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
+import javax.faces.bean.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
-@Stateless
+@Stateful
+@RequestScoped
+@LocalBean
 public class PaymentsRepository implements Dao<Payments> {
 
     @PersistenceContext(unitName = "main")

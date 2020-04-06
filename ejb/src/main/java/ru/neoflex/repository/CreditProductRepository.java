@@ -5,12 +5,14 @@ import ru.neoflex.entity.CreditProduct;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
+import javax.faces.bean.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
 @Stateful
+@RequestScoped
 @LocalBean
 public class CreditProductRepository implements Dao<CreditProduct> {
 

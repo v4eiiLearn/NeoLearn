@@ -2,6 +2,7 @@ package ru.neoflex.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.neoflex.enums.UserRole;
 
 import javax.persistence.*;
 
@@ -32,8 +33,9 @@ public class User {
     private String userName;
     @Basic(optional = false)
     @Column(name = "user_role")
+    @Enumerated(EnumType.STRING)
     @Getter @Setter
-    private String userRole;
+    private UserRole userRole;
 
     @Override
     public boolean equals(Object o) {

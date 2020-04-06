@@ -2,8 +2,10 @@ package ru.neoflex.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.neoflex.payments.schema.Payment;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "payments", schema = "public", catalog = "creditCalc")
@@ -37,13 +39,19 @@ public class Payments {
     @ManyToOne(optional = false)
     @Getter @Setter
     private PaymentSchedule idSchedule;
+    @Basic(optional = false)
+    @Column(name = "date_payment")
+    @Temporal(TemporalType.DATE)
+    @Getter @Setter
+    private Date datePayment;
 
-    public Payments(float payment, float paymentBody, float paymentPercent, float monthlyBalance, float overpayment, PaymentSchedule paymentSchedule) {
-        this.monthlyBalance = monthlyBalance;
-        this.payment = payment;
-        this.paymentBody = paymentBody;
-        this.paymentPercent = paymentPercent;
-        this.overpayment = overpayment;
+    public Payments(Payment payment, PaymentSchedule paymentSchedule) {
+        this.monthlyBalance = payment.getMonthlyBalance();
+        this.overpayment = payment.getOverpayment();
+        this.payment = payment.getPayment();
+        this.paymentBody = payment.getPaymentForBody();
+        this.paymentPercent = payment.getPaymentForPercent();
+        datePayment = payment.getDatePayment().toGregorianCalendar().getTime();
         this.idSchedule = paymentSchedule;
     }
 

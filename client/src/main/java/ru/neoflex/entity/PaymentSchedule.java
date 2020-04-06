@@ -9,7 +9,10 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "payment_schedule", schema = "public", catalog = "creditCalc")
-@NamedQuery(name = "findAllPaymentSchedule", query = "SELECT p FROM PaymentSchedule p")
+@NamedQueries({
+        @NamedQuery(name = "findAllPaymentSchedule", query = "SELECT p FROM PaymentSchedule p"),
+        @NamedQuery(name = "findByUserLogin", query = "SELECT p FROM PaymentSchedule p WHERE userLogin = :usrLogin")
+})
 public class PaymentSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +33,7 @@ public class PaymentSchedule {
     @Column(name = "client_name")
     @Getter @Setter
     private String clientName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSchedule")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSchedule", fetch = FetchType.EAGER)
     @Getter @Setter
     private Collection<Payments> paymentsCollection;
 

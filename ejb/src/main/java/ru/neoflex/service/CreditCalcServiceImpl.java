@@ -3,22 +3,31 @@ package ru.neoflex.service;
 import payments.exceptions.CreditDataException;
 import payments.impl.CreditCalcImpl;
 import ru.neoflex.entity.CreditProduct;
+import ru.neoflex.entity.PaymentSchedule;
 import ru.neoflex.payments.schema.Credit;
 import ru.neoflex.payments.schema.Payment;
 import ru.neoflex.payments.schema.Payments;
+import ru.neoflex.repository.PaymentScheduleRepository;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 @LocalBean
 @Stateless
 public class CreditCalcServiceImpl implements CreditCalcService {
+
+    @EJB
+    private PaymentScheduleRepository paymentScheduleRepository;
+
     @Override
     public List<Payment> calculateAndReturnPayments(CreditProduct creditProduct, BigDecimal price, Integer term, GregorianCalendar calendar) {
         try {
@@ -37,4 +46,19 @@ public class CreditCalcServiceImpl implements CreditCalcService {
         }
         return null;
     }
+
+    public PaymentSchedule issueCredit(String clientName, String userLogin, List<Payment> paymentList) {
+        PaymentSchedule paymentSchedule = new PaymentSchedule();
+        paymentSchedule.setClientName(clientName);
+        paymentSchedule.setUserLogin(userLogin);
+        paymentSchedule.setDateGenerate(new Date());
+        List<ru.neoflex.entity.Payments> payments = new ArrayList<>();
+        for (Payment value : paymentList) {
+            payments.add(new ru.neoflex.entity.Payments(value, paymentSchedule));
+        }
+        paymentSchedule.setPaymentsCollection(payments);
+        paymentScheduleRepository.create(paymentSchedule);
+        return paymentSchedule;
+    }
+
 }

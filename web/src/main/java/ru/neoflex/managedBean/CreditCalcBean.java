@@ -4,14 +4,19 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.neoflex.entity.CreditProduct;
 import ru.neoflex.entity.User;
+import ru.neoflex.payments.schema.Payment;
+import ru.neoflex.service.CreditCalcServiceImpl;
 import ru.neoflex.service.CreditProductServiceImpl;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @ManagedBean(name = "ccViewBean")
@@ -20,6 +25,8 @@ public class CreditCalcBean {
 
     @EJB
     private CreditProductServiceImpl creditProductService;
+    @EJB
+    private CreditCalcServiceImpl creditCalcService;
     @EJB
     private BroadcastBean broadcastBean;
 
@@ -37,6 +44,9 @@ public class CreditCalcBean {
     private boolean showIssueFields;
     @Getter @Setter
     private String clientName;
+
+    @Getter @Setter
+    private List<Payment> paymentList;
 
     @PostConstruct
     public void init() {
@@ -63,17 +73,15 @@ public class CreditCalcBean {
         showIssueFields = suitableCreditProducts.size() > 0;
     }
 
-    //TODO: не переходит, до входа в метод кидает
-    // WARNING: FacesMessage(s) have been enqueued, but may not have been displayed.
-    // sourceId=j_idt10:products[severity=(ERROR 2), summary=(Conversion Error setting value 'Продукт1 9.4 DIFF' for 'null Converter'. ), detail=(Conversion Error setting value 'Продукт1 9.4 DIFF' for 'null Converter'. )]
-    // Как идея, расчитывать здесь, передавая лист с расчетами.
     public String toIssueCredit() {
-        broadcastBean.setClientName(clientName);
-        broadcastBean.setCreditProduct(selectedCreditProduct);
-        broadcastBean.setPrice(new BigDecimal(price));
-        broadcastBean.setTerm(term);
+        broadcastBean.setPaymentSchedule(creditCalcService.issueCredit(clientName, user.getUserLogin(),
+                creditCalcService.calculateAndReturnPayments(selectedCreditProduct, new BigDecimal(price), term,
+                    new GregorianCalendar(Calendar.getInstance().getTimeZone()))));
         return "/jsf/SchedulePaymentsView?faces-redirect=true";
     }
 
+    public String toSchedules() {
+        return "/jsf/SchedulesView?faces-redirect=true";
+    }
 
 }

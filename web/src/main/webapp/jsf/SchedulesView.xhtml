@@ -21,9 +21,9 @@
 
                     #content {
                         position: absolute;
-                        margin-top: 52%;
+                        margin-top: 0;
                         margin-bottom: 5%;
-                        top: 50%;
+                        top: 15%;
                         left: 50%;
                         margin-right: -50%;
                         transform: translate(-50%, -50%);
@@ -42,34 +42,36 @@
         <ui:define name="content">
             <div id="content">
                 <h:form>
-                    <h:outputLabel>Кредит для #{schedulePaymentsBean.paymentSchedule.clientName}</h:outputLabel>
-                    <h:dataTable value="#{schedulePaymentsBean.paymentSchedule.paymentsCollection}" var="payment">
+                    <h:outputLabel>Список графиков</h:outputLabel> <br/>
+                    <h:outputLabel value="Фильтровать по имени клиента">
+                        <h:inputText id="clientName" valueChangeListener="#{schedulesViewBean.filterByClientName}">
+                            <f:ajax event="change" execute="content" render="@all"/>
+                        </h:inputText>
+                    </h:outputLabel>
+                    <h:dataTable id="schedules" value="#{schedulesViewBean.paymentSchedules}" var="schedule">
                         <h:column>
-                            <f:facet name="header">Выплата</f:facet>
-                            #{payment.payment}
+                            <f:facet name="header">#</f:facet>
+                            <h:outputLabel value="#{schedule.idSchedule}"/>
                         </h:column>
                         <h:column>
-                            <f:facet name="header">Выплата по процентам</f:facet>
-                            #{payment.paymentPercent}
+                            <f:facet name="header">Клиент</f:facet>
+                            #{schedule.clientName}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">Выплата по кредиту</f:facet>
-                            #{payment.paymentBody}
+                            <f:facet name="header">Дата генерации</f:facet>
+                            #{schedule.dateGenerate}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">Переплата</f:facet>
-                            #{payment.overpayment}
+                            <f:facet name="header">Пользователь</f:facet>
+                            #{schedule.userLogin}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">Остаток задолжности</f:facet>
-                            #{payment.monthlyBalance}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Дата выплаты</f:facet>
-                            #{payment.datePayment}
+                            <f:facet name="header">График платежа</f:facet>
+                            <h:commandLink action="#{schedulesViewBean.toSchedule(schedule)}"
+                                           value="Перейти к графику"/>
                         </h:column>
                     </h:dataTable>
-                    <h:commandButton value="Вернуться к графикам" action="#{schedulePaymentsBean.returnToSchedules}"/>
+                    <h:commandButton value="Перейти к калькулятору" action="#{schedulesViewBean.toCreditCalc()}"/>
                 </h:form>
             </div>
         </ui:define>

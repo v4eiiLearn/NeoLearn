@@ -2,15 +2,20 @@ package ru.neoflex.repository;
 
 import ru.neoflex.dao.Dao;
 import ru.neoflex.entity.PaymentSchedule;
+import ru.neoflex.entity.User;
 
+import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
+import javax.faces.bean.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
-@Stateless
+@Stateful
+@RequestScoped
+@LocalBean
 public class PaymentScheduleRepository implements Dao<PaymentSchedule> {
 
     @PersistenceContext
@@ -39,6 +44,17 @@ public class PaymentScheduleRepository implements Dao<PaymentSchedule> {
     @Override
     public List<PaymentSchedule> findAll() {
         Query q = em.createNamedQuery("findAllPaymentSchedule");
+        return q.getResultList();
+    }
+
+    public List<PaymentSchedule> findByUserLogin(String usrLogin) {
+        Query q = em.createNamedQuery("findByUserLogin");
+        q.setParameter("usrLogin", usrLogin);
+        return q.getResultList();
+    }
+
+    public List<PaymentSchedule> findByClientName(String clientName) {
+        Query q = em.createNativeQuery("SELECT * FROM payment_schedule WHERE client_name LIKE '%" + clientName + "%'", PaymentSchedule.class);
         return q.getResultList();
     }
 }

@@ -56,15 +56,18 @@
                         </h:inputText>
                     </h:outputLabel> <br/>
                     <h:outputLabel value="Возможные кредитные продукты">
-                        <h:selectOneMenu id="products" value="#{ccViewBean.selectedCreditProduct}">
+                        <h:selectOneMenu id="products" value="#{ccViewBean.selectedCreditProduct}" converter="#{creditProductConverter}">
                             <f:selectItems value="#{ccViewBean.suitableCreditProducts}" var="product"
-                                           itemLabel="#{product.productName} #{product.percent} #{product.type}"/>
-                        </h:selectOneMenu>
+                                           itemLabel="#{product.productName} #{product.percent} #{product.type.value()}"/>
+                        </h:selectOneMenu> <br/>
+                        <h:message for="products"/>
                     </h:outputLabel> <br/><br/>
-                    <h:outputLabel value="ФИО Клиента">
+                    <h:outputLabel value="ФИО Клиента" rendered="#{ccViewBean.showIssueFields}">
                         <h:inputText value="#{ccViewBean.clientName}"/>
                     </h:outputLabel> <br/>
-                    <h:commandButton id="issueButton" value="Оформить кредит"  action="#{ccViewBean.toIssueCredit()}"/>
+                    <h:commandButton id="issueButton" value="Оформить кредит"  action="#{ccViewBean.toIssueCredit()}" rendered="#{ccViewBean.showIssueFields}"/>
+                    <br/> <br/> <br/>
+                    <h:commandButton value="К графикам" action="#{ccViewBean.toSchedules()}"/>
                 </div>
             </h:form>
         </ui:define>
