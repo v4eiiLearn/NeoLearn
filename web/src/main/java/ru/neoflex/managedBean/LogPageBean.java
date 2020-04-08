@@ -16,12 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 @ManagedBean(name = "logPage")
 @ViewScoped
 public class LogPageBean {
-
-    @EJB
-    private UserRepository userRepository;
-    @EJB
-    private BroadcastBean broadcastBean;
-
     @Getter @Setter
     private String login;
     @Getter @Setter
@@ -30,12 +24,4 @@ public class LogPageBean {
     private User user;
     @Getter @Setter
     private String errorMsg;
-
-    public void findUser() {
-        if (user == null) {
-            user = userRepository.findByLoginAndPassword(login.trim(), psw.trim());
-        }
-        broadcastBean.setUser(user);
-    }
-
 }

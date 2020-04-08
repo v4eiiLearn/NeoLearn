@@ -61,4 +61,10 @@ public class UserRepository implements Dao<User> {
         return (User) singleResult;
     }
 
+    public User findByLogin(String login) {
+        Query q = em.createNamedQuery("findByLogin", User.class);
+        q.setParameter("login", login);
+        return (User) q.getSingleResult();
+    }
+
 }

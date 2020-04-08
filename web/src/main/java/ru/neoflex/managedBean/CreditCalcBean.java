@@ -5,6 +5,7 @@ import lombok.Setter;
 import ru.neoflex.entity.CreditProduct;
 import ru.neoflex.entity.User;
 import ru.neoflex.payments.schema.Payment;
+import ru.neoflex.repository.UserRepository;
 import ru.neoflex.service.CreditCalcServiceImpl;
 import ru.neoflex.service.CreditProductServiceImpl;
 
@@ -12,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import java.math.BigDecimal;
@@ -27,6 +29,8 @@ public class CreditCalcBean {
     private CreditProductServiceImpl creditProductService;
     @EJB
     private CreditCalcServiceImpl creditCalcService;
+    @EJB
+    private UserRepository userRepository;
     @EJB
     private BroadcastBean broadcastBean;
 
@@ -45,14 +49,13 @@ public class CreditCalcBean {
     @Getter @Setter
     private String clientName;
 
-
     @Getter @Setter
     private List<Payment> paymentList;
 
     @PostConstruct
     public void init() {
-//        logPageBean.findUser();
-        user = broadcastBean.getUser();
+        user = userRepository.findByLogin(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+        broadcastBean.setUser(user);
         showIssueFields = false;
     }
 
