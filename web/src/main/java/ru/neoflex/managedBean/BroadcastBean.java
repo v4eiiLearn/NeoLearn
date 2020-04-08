@@ -19,5 +19,9 @@ public class BroadcastBean {
     private CreditProduct creditProduct;
     @Getter @Setter
     private PaymentSchedule paymentSchedule;
+    @Getter @Setter
+    private String login;
+    @Getter @Setter
+    private String psw;
 
 }

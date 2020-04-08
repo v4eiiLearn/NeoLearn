@@ -32,8 +32,48 @@
     <listener>
         <listener-class>liquibase.integration.servlet.LiquibaseServletListener</listener-class>
     </listener>
+
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
-        <welcome-file>jsf/LogPage.xhtml</welcome-file>
+        <welcome-file>/jsf/CreditCalcView.xhtml</welcome-file>
     </welcome-file-list>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>AllPublic</web-resource-name>
+            <url-pattern>/jsf/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>CREDIT_MANAGER</role-name>
+            <role-name>SUPERVISOR</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/LogPage.xhtml</form-login-page>
+            <form-error-page>/jsf/template/footer.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+
+    <security-role>
+        <role-name>CREDIT_MANAGER</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SUPERVISOR</role-name>
+    </security-role>
 
 </web-app>

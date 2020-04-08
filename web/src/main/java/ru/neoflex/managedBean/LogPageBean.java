@@ -8,8 +8,10 @@ import ru.neoflex.repository.UserRepository;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ValueChangeEvent;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @ManagedBean(name = "logPage")
 @ViewScoped
@@ -29,17 +31,11 @@ public class LogPageBean {
     @Getter @Setter
     private String errorMsg;
 
-    public String checkInputData() {
-        user = userRepository.findByLoginAndPassword(login.trim(), psw.trim());
-        if (user != null) {
-            broadcastBean.setUser(user);
-            errorMsg = "";
-            return "/jsf/CreditCalcView?faces-redirect=true";
+    public void findUser() {
+        if (user == null) {
+            user = userRepository.findByLoginAndPassword(login.trim(), psw.trim());
         }
-        else {
-            errorMsg = "Uncorrect login or password";
-            return "";
-        }
+        broadcastBean.setUser(user);
     }
 
 }

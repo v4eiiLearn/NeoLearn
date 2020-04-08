@@ -7,7 +7,7 @@ import ru.neoflex.enums.UserRole;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user", schema = "public", catalog = "creditCalc")
+@Table(name = "accounts", schema = "public", catalog = "creditCalc")
 @NamedQueries({
         @NamedQuery(name = "findAllUsers", query = "SELECT u FROM User u"),
         @NamedQuery(name = "findByLoginAndPassword", query = "SELECT u FROM User u WHERE u.userLogin = :login AND u.userPsw = :psw")
@@ -20,11 +20,11 @@ public class User {
     @Getter @Setter
     private Integer idUser;
     @Basic(optional = false)
-    @Column(name = "user_login")
+    @Column(name = "login")
     @Getter @Setter
     private String userLogin;
     @Basic(optional = false)
-    @Column(name = "user_psw")
+    @Column(name = "password")
     @Getter @Setter
     private String userPsw;
     @Basic(optional = false)
@@ -32,7 +32,7 @@ public class User {
     @Getter @Setter
     private String userName;
     @Basic(optional = false)
-    @Column(name = "user_role")
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     @Getter @Setter
     private UserRole userRole;

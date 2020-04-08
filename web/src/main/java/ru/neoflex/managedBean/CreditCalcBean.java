@@ -13,6 +13,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -44,11 +45,13 @@ public class CreditCalcBean {
     @Getter @Setter
     private String clientName;
 
+
     @Getter @Setter
     private List<Payment> paymentList;
 
     @PostConstruct
     public void init() {
+//        logPageBean.findUser();
         user = broadcastBean.getUser();
         showIssueFields = false;
     }

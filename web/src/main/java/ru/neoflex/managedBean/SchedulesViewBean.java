@@ -11,7 +11,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @ManagedBean
@@ -31,7 +33,7 @@ public class SchedulesViewBean {
     @PostConstruct
     public void init() {
         user = broadcastBean.getUser();
-        if (user.getUserRole().equals(UserRole.SUPERVISOR))
+        if (((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).isUserInRole(UserRole.SUPERVISOR.value()))
             paymentSchedules = paymentScheduleRepository.findAll();
         else
             paymentSchedules = paymentScheduleRepository.findByUserLogin(user.getUserLogin());
