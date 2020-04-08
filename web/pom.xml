@@ -21,19 +21,26 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.6.0.1398</version>
-                <executions>
+<!--            <plugin>-->
+<!--                <groupId>org.liquibase</groupId>-->
+<!--                <artifactId>liquibase-maven-plugin</artifactId>-->
+<!--                <version>3.0.7</version>-->
+<!--                <configuration>-->
+<!--                    <changeLogFile>src/main/resources/liquibase/db.changelog-master.xml</changeLogFile>-->
+<!--                    <driver>org.postgresql.Driver</driver>-->
+<!--                    <url>jdbc:postgresql://postgres:5432/creditCalc</url>-->
+<!--                    <username>postgres</username>-->
+<!--                    <password>15sl02tt</password>-->
+<!--                </configuration>-->
+<!--                <executions>-->
 <!--                    <execution>-->
-<!--                        <phase>package</phase>-->
+<!--                        <phase>process-resources</phase>-->
 <!--                        <goals>-->
-<!--                            <goal>sonar</goal>-->
+<!--                            <goal>update</goal>-->
 <!--                        </goals>-->
 <!--                    </execution>-->
-                </executions>
-            </plugin>
+<!--                </executions>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 
@@ -43,6 +50,12 @@
             <artifactId>ejb</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>3.5.3</version>
+        </dependency>
+
     </dependencies>
 
 

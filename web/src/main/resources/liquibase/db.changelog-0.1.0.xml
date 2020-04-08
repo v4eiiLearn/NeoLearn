@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="19082014-1" author="autor">
+        <sql>
+<!--            INSERT INTO postgres.public.credit_product (product_name, min_term, max_term, min_price, max_price, percent) VALUES ('Продукт1', 80, 120, 600000, 1500000, 9.4, 'DIFF'), ('Продукт2', 150, 200, 1500000, 3000000, 11.6, 'ANNUITY');-->
+<!--            INSERT INTO postgres.public."user" (user_login, user_psw, user_name, user_role) VALUES ('nts', 'nts', 'Katar', 'CREDIT_MANAGER'), ('admin', 'admin', 'Admin', 'SUPERVISOR');-->
+            CREATE DATABASE "creditCalc" WITH OWNER = postgres ENCODING = 'UTF8' LC_COLLATE = 'Russian_Russia.1251' LC_CTYPE = 'Russian_Russia.1251' TABLESPACE = pg_default CONNECTION LIMIT = -1;
+            Table user
+            CREATE TABLE public."user"
+            (
+            id_user integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+            user_login character varying(15) COLLATE pg_catalog."default" NOT NULL,
+            user_psw character varying(25) COLLATE pg_catalog."default" NOT NULL,
+            user_name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+            user_role character varying(20) COLLATE pg_catalog."default" NOT NULL,
+            CONSTRAINT user_pkey PRIMARY KEY (id_user)
+            )
+            WITH (
+            OIDS = FALSE
+            )
+            TABLESPACE pg_default;
+
+            ALTER TABLE public."user"
+            OWNER to postgres;
+
+<!--            -->
+<!--            payment_schedule table-->
+            CREATE TABLE public.payment_schedule
+            (
+            id_schedule integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+            user_login character varying(20) COLLATE pg_catalog."default" NOT NULL,
+            date_generate date NOT NULL,
+            client_name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+            CONSTRAINT payment_schedule_pkey PRIMARY KEY (id_schedule)
+            )
+            WITH (
+            OIDS = FALSE
+            )
+            TABLESPACE pg_default;
+
+            ALTER TABLE public.payment_schedule
+            OWNER to postgres;
+<!--            -->
+<!--            Payments table-->
+            CREATE TABLE public.payments
+            (
+            id_payment integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+            payment real NOT NULL,
+            payment_body real NOT NULL,
+            payment_percent real NOT NULL,
+            monthly_balance real NOT NULL,
+            overpayment real NOT NULL,
+            id_schedule integer NOT NULL,
+            date_payment date NOT NULL,
+            CONSTRAINT payments_pkey PRIMARY KEY (id_payment),
+            CONSTRAINT payments_id_schedule_fkey FOREIGN KEY (id_schedule)
+            REFERENCES public.payment_schedule (id_schedule) MATCH SIMPLE
+            ON UPDATE NO ACTION
+            ON DELETE NO ACTION
+            NOT VALID
+            )
+            WITH (
+            OIDS = FALSE
+            )
+            TABLESPACE pg_default;
+
+            ALTER TABLE public.payments
+            OWNER to postgres;
+<!--            -->
+<!--            Credit product table-->
+            CREATE TABLE public.credit_product
+            (
+            id_product integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+            product_name character varying(25) COLLATE pg_catalog."default" NOT NULL,
+            min_term integer NOT NULL,
+            max_term integer NOT NULL,
+            min_price numeric NOT NULL,
+            max_price numeric NOT NULL,
+            percent real NOT NULL,
+            type character varying(15) COLLATE pg_catalog."default" NOT NULL,
+            CONSTRAINT credit_product_pkey PRIMARY KEY (id_product)
+            )
+            WITH (
+            OIDS = FALSE
+            )
+            TABLESPACE pg_default;
+
+            ALTER TABLE public.credit_product
+            OWNER to postgres;
+<!--            -->
+<!--            -->
+            INSERT INTO credit_product (product_name, min_term, max_term, min_price, max_price, percent)
+            VALUES ('Продукт1', 80, 120, 600000, 1500000, 9.4, 'DIFF'), ('Продукт2', 150, 200, 1500000, 3000000, 11.6, 'ANNUITY');
+<!--            -->
+<!--            -->
+            INSERT INTO "user" (user_login, user_psw, user_name, user_role)
+            VALUES ('nts', 'nts', 'Katar', 'CREDIT_MANAGER'), ('admin', 'admin', 'Admin', 'SUPERVISOR');
+
+
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

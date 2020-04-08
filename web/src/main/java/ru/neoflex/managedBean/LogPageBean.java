@@ -30,7 +30,7 @@ public class LogPageBean {
     private String errorMsg;
 
     public String checkInputData() {
-        user = userRepository.findByLoginAndPassword(login, psw);
+        user = userRepository.findByLoginAndPassword(login.trim(), psw.trim());
         if (user != null) {
             broadcastBean.setUser(user);
             errorMsg = "";
