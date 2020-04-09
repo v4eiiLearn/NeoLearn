@@ -7,7 +7,7 @@ import ru.neoflex.enums.UserRole;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "accounts", schema = "public", catalog = "creditCalc")
+@Table(name = "accounts", schema = "public")
 @NamedQueries({
         @NamedQuery(name = "findAllUsers", query = "SELECT u FROM User u"),
         @NamedQuery(name = "findByLoginAndPassword", query = "SELECT u FROM User u WHERE u.userLogin = :login AND u.userPsw = :psw"),

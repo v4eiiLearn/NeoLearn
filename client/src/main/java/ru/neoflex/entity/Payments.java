@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "payments", schema = "public", catalog = "creditCalc")
+@Table(name = "payments", schema = "public")
 @NamedQuery(name = "findAllPayments", query = "SELECT p FROM Payments p")
 public class Payments {
     @Id

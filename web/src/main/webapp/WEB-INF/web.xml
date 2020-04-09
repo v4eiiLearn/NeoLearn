@@ -4,33 +4,9 @@
 
 <web-app>
     <display-name>Archetype Created Web Application</display-name>
-    <context-param>
-        <param-name>liquibase.changelog</param-name>
-        <param-value>src/main/resources/liquibase/db.changelog-master.xml</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>liquibase.datasource</param-name>
-        <param-value>jdbc:postgresql://postgres:5432/postgres</param-value>  <!--java:comp/env/jdbc/default -->
-    </context-param>
-
-    <context-param>
-        <param-name>liquibase.host.includes</param-name>
-        <param-value>production1.example.com, production2.example.com</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>liquibase.onerror.fail</param-name>
-        <param-value>true</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>liquibase.contexts</param-name>
-        <param-value>production</param-value>
-    </context-param>
 
     <listener>
-        <listener-class>liquibase.integration.servlet.LiquibaseServletListener</listener-class>
+        <listener-class>ru.neoflex.managedBean.MyServletListener</listener-class>
     </listener>
 
     <servlet>

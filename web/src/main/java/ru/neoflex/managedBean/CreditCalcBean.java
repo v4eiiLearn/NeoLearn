@@ -15,7 +15,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
-import javax.inject.Inject;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -64,6 +65,15 @@ public class CreditCalcBean {
             suitableCreditProducts.clear();
         if (price != null && term != null)
             suitableCreditProducts = creditProductService.findSuitableCreditProduct(price, term);
+    }
+
+    public void logOut() {
+        try {
+            ((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).logout();
+        }
+        catch (ServletException e) {
+            e.printStackTrace();
+        }
     }
 
     public void priceChangeListener(ValueChangeEvent event) {

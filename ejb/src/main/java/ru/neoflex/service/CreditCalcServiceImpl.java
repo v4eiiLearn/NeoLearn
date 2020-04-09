@@ -41,7 +41,6 @@ public class CreditCalcServiceImpl implements CreditCalcService {
             return calculate.getPaymentList();
         }
         catch (DatatypeConfigurationException | IOException | CreditDataException e) {
-            //TODO: накрутить логгер
             e.printStackTrace();
         }
         return null;

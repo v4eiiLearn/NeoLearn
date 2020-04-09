@@ -68,6 +68,7 @@
                     <h:commandButton id="issueButton" value="Оформить кредит"  action="#{ccViewBean.toIssueCredit()}" rendered="#{ccViewBean.showIssueFields}"/>
                     <br/> <br/> <br/>
                     <h:commandButton value="К графикам" action="#{ccViewBean.toSchedules()}"/>
+                    <h:commandButton value="Выход" action="#{ccViewBean.logOut()}"/>
                 </div>
             </h:form>
         </ui:define>

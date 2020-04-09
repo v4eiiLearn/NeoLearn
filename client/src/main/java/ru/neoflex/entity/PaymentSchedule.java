@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Collection;
 
 @Entity
-@Table(name = "payment_schedule", schema = "public", catalog = "creditCalc")
+@Table(name = "payment_schedule", schema = "public")
 @NamedQueries({
         @NamedQuery(name = "findAllPaymentSchedule", query = "SELECT p FROM PaymentSchedule p"),
         @NamedQuery(name = "findByUserLogin", query = "SELECT p FROM PaymentSchedule p WHERE userLogin = :usrLogin")

@@ -8,7 +8,7 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 
 @Entity
-@Table(name = "credit_product", schema = "public", catalog = "creditCalc")
+@Table(name = "credit_product", schema = "public")
 @NamedQueries(
         {
         @NamedQuery(name = "findAllCreditProduct", query = "SELECT c FROM CreditProduct c"),
@@ -51,6 +51,19 @@ public class CreditProduct {
     @Enumerated(EnumType.STRING)
     @Getter @Setter
     private CreditType type;
+
+    public CreditProduct() {
+    }
+
+    public CreditProduct(String productName, Integer minTerm, Integer maxTerm, Long minPrice, Long maxPrice, float percent, CreditType type) {
+        this.productName = productName;
+        this.minTerm = minTerm;
+        this.maxTerm = maxTerm;
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
+        this.percent = percent;
+        this.type = type;
+    }
 
     @Override
     public boolean equals(Object o) {
