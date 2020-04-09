@@ -471,6 +471,15 @@
                         <policy-module code="Delegating" flag="required"/>
                     </authorization>
                 </security-domain>
+				<security-domain name="securityCredit" cache-type="default">
+                    <authentication>
+                        <login-module code="Database" flag="required">
+                            <module-option name="dsJndiName" value="java:jboss/datasources/Postgres"/>
+                            <module-option name="principalsQuery" value="SELECT password FROM accounts WHERE login=?"/>
+                            <module-option name="rolesQuery" value="SELECT role, 'Roles' FROM accounts WHERE login=?"/>
+                        </login-module>
+                    </authentication>
+                </security-domain>
             </security-domains>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:security-manager:1.0">

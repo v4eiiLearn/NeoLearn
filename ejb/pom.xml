@@ -19,53 +19,6 @@
         <sonar.java.binaries>target/classes</sonar.java.binaries>
     </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.6.0.1398</version>
-                <executions>
-<!--                    <execution>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>sonar</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-                </executions>
-            </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.codehaus.mojo</groupId>-->
-<!--                <artifactId>exec-maven-plugin</artifactId>-->
-<!--                <version>1.1.1</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        &lt;!&ndash; start H2 DB before integration tests &ndash;&gt;-->
-<!--                        <id>start</id>-->
-<!--                        <phase>pre-integration-test</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>java</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <mainClass>ru.neoflex.tools.StartServer</mainClass>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                    <execution>-->
-<!--                        &lt;!&ndash; stop H2 DB after integration tests &ndash;&gt;-->
-<!--                        <id>stop</id>-->
-<!--                        <phase>post-integration-test</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>java</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <mainClass>ru.neoflex.tools.StopServer</mainClass>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-        </plugins>
-    </build>
-
     <dependencies>
         <dependency>
             <groupId>ru.neoflex</groupId>
