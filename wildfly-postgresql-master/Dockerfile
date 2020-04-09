@@ -41,6 +41,8 @@ RUN chmod 755 $WILDFLY_HOME/bin/startWithPostgres.sh
 USER jboss
 
 COPY postgresql-42.2.5.jar /tmp
+
+#Package and add war in current folder before docker build
 COPY web-1.0-SNAPSHOT.war /tmp/deploments
 
 ENTRYPOINT $WILDFLY_HOME/bin/startWithPostgres.sh
