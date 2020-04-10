@@ -1,7 +1,7 @@
 package ru.neoflex.service;
 
+import payments.schema.Payment;
 import ru.neoflex.entity.CreditProduct;
-import ru.neoflex.payments.schema.Payment;
 
 import javax.ejb.Local;
 import java.math.BigDecimal;

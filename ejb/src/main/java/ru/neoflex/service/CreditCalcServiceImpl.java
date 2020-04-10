@@ -2,11 +2,11 @@ package ru.neoflex.service;
 
 import payments.exceptions.CreditDataException;
 import payments.impl.CreditCalcImpl;
+import payments.schema.Credit;
+import payments.schema.Payment;
+import payments.schema.Payments;
 import ru.neoflex.entity.CreditProduct;
 import ru.neoflex.entity.PaymentSchedule;
-import ru.neoflex.payments.schema.Credit;
-import ru.neoflex.payments.schema.Payment;
-import ru.neoflex.payments.schema.Payments;
 import ru.neoflex.repository.PaymentScheduleRepository;
 
 import javax.ejb.EJB;

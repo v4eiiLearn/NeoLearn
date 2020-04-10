@@ -23,5 +23,7 @@ public class BroadcastBean {
     private String login;
     @Getter @Setter
     private String psw;
+    @Getter @Setter
+    private String clientName;
 
 }

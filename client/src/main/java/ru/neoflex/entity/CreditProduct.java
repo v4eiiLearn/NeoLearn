@@ -2,7 +2,7 @@ package ru.neoflex.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.neoflex.payments.schema.CreditType;
+import payments.schema.CreditType;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;

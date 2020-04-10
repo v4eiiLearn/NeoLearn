@@ -2,7 +2,7 @@ package ru.neoflex.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.neoflex.payments.schema.Payment;
+import payments.schema.Payment;
 
 import javax.persistence.*;
 import java.util.Date;

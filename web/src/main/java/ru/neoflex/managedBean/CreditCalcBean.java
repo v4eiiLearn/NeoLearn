@@ -2,11 +2,12 @@ package ru.neoflex.managedBean;
 
 import lombok.Getter;
 import lombok.Setter;
+import payments.schema.Credit;
+import payments.schema.Payment;
 import ru.neoflex.entity.CreditProduct;
 import ru.neoflex.entity.User;
-import ru.neoflex.payments.schema.Payment;
+import ru.neoflex.managedBean.jms.Sender;
 import ru.neoflex.repository.UserRepository;
-import ru.neoflex.service.CreditCalcServiceImpl;
 import ru.neoflex.service.CreditProductServiceImpl;
 
 import javax.annotation.PostConstruct;
@@ -17,6 +18,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -28,8 +31,6 @@ public class CreditCalcBean {
 
     @EJB
     private CreditProductServiceImpl creditProductService;
-    @EJB
-    private CreditCalcServiceImpl creditCalcService;
     @EJB
     private UserRepository userRepository;
     @EJB
@@ -49,6 +50,9 @@ public class CreditCalcBean {
     private boolean showIssueFields;
     @Getter @Setter
     private String clientName;
+
+    @EJB
+    private Sender sender;
 
     @Getter @Setter
     private List<Payment> paymentList;
@@ -79,20 +83,37 @@ public class CreditCalcBean {
     public void priceChangeListener(ValueChangeEvent event) {
         price = (Long) event.getNewValue();
         checkProducts();
-        showIssueFields = suitableCreditProducts.size() > 0;
+        if (suitableCreditProducts != null)
+            showIssueFields = suitableCreditProducts.size() > 0;
     }
 
     public void termChangeListener(ValueChangeEvent event) {
         term = (Integer) event.getNewValue();
         checkProducts();
-        showIssueFields = suitableCreditProducts.size() > 0;
+        if (suitableCreditProducts != null)
+            showIssueFields = suitableCreditProducts.size() > 0;
     }
 
     public String toIssueCredit() {
-        broadcastBean.setPaymentSchedule(creditCalcService.issueCredit(clientName, user.getUserLogin(),
-                creditCalcService.calculateAndReturnPayments(selectedCreditProduct, new BigDecimal(price), term,
-                    new GregorianCalendar(Calendar.getInstance().getTimeZone()))));
-        return "/jsf/SchedulePaymentsView?faces-redirect=true";
+//        broadcastBean.setPaymentSchedule(creditCalcService.issueCredit(clientName, user.getUserLogin(),
+//                creditCalcService.calculateAndReturnPayments(selectedCreditProduct, new BigDecimal(price), term,
+//                    new GregorianCalendar(Calendar.getInstance().getTimeZone()))));
+        try {
+            Credit c = new Credit();
+            c.setPercent(selectedCreditProduct.getPercent());
+            c.setType(selectedCreditProduct.getType());
+            c.setDateIssue(DatatypeFactory.newInstance().newXMLGregorianCalendar(
+                    new GregorianCalendar(Calendar.getInstance().getTimeZone())));
+            c.setTerm(term);
+            c.setPrice(new BigDecimal(price));
+            broadcastBean.setClientName(clientName);
+            sender.sendMessage(c);
+            return "/jsf/WaitPageView?faces-redirect=true";
+        }
+        catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
+        return "/jsf/template/content?faces-redirect=true";
     }
 
     public String toSchedules() {

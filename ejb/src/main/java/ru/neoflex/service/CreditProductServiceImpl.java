@@ -7,7 +7,6 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.faces.bean.ViewScoped;
-import java.math.BigDecimal;
 import java.util.List;
 
 @LocalBean
