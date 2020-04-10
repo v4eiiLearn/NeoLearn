@@ -1,7 +1,9 @@
 package ru.neoflex.jmsreceiver;
 
 import payments.exceptions.CreditDataException;
-import payments.impl.*;
+import payments.impl.CreditCalcImpl;
+import payments.impl.CreditSer;
+import payments.impl.PaymentSer;
 import payments.schema.Credit;
 import payments.schema.CreditType;
 import payments.schema.Payment;
@@ -10,13 +12,15 @@ import payments.schema.Payments;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
-import javax.jms.*;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.ObjectMessage;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
-import javax.xml.soap.Text;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @MessageDriven(name = "Receiver", activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationLookup",
