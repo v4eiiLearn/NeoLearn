@@ -95,9 +95,6 @@ public class CreditCalcBean {
     }
 
     public String toIssueCredit() {
-//        broadcastBean.setPaymentSchedule(creditCalcService.issueCredit(clientName, user.getUserLogin(),
-//                creditCalcService.calculateAndReturnPayments(selectedCreditProduct, new BigDecimal(price), term,
-//                    new GregorianCalendar(Calendar.getInstance().getTimeZone()))));
         try {
             Credit c = new Credit();
             c.setPercent(selectedCreditProduct.getPercent());
