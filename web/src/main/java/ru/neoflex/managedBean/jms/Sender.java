@@ -7,7 +7,10 @@ import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.faces.bean.ApplicationScoped;
 import javax.inject.Inject;
-import javax.jms.*;
+import javax.jms.JMSContext;
+import javax.jms.JMSException;
+import javax.jms.ObjectMessage;
+import javax.jms.Queue;
 
 @ApplicationScoped
 @Stateless
@@ -19,10 +22,11 @@ public class Sender {
     @Inject
     private JMSContext context;
 
-    public void sendMessage(Credit credit) {
+    public void sendMessage(Credit credit, String correlationID) {
         ObjectMessage objectMessage = context.createObjectMessage();
         CreditSer cs = new CreditSer(credit);
         try {
+            objectMessage.setJMSCorrelationID(correlationID);
             objectMessage.setObject(cs);
             context.createProducer().send(queue, objectMessage);
         }

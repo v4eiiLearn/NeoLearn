@@ -1,9 +1,8 @@
-package ru.neoflex.managedBean;
+package ru.neoflex.managedBean.jms;
 
-import lombok.Getter;
-import lombok.Setter;
 import payments.impl.PaymentSer;
 import payments.schema.Payment;
+import ru.neoflex.managedBean.BroadcastBean;
 import ru.neoflex.service.CreditCalcServiceImpl;
 
 import javax.ejb.ActivationConfigProperty;
@@ -11,8 +10,6 @@ import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.inject.Named;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
@@ -29,6 +26,9 @@ import java.util.List;
                 propertyValue = "javax.jms.Queue"),
         @ActivationConfigProperty(propertyName = "acknowledgeMode",
                 propertyValue = "Auto-acknowledge")
+        /*,
+        @ActivationConfigProperty(propertyName = "correlationID",
+                propertyValue = "#{ccViewBean.correlationID}")*/
 })
 @ManagedBean(name = "beand")
 @ApplicationScoped
@@ -38,9 +38,6 @@ public class Receiver implements MessageListener {
     private BroadcastBean broadcastBean;
     @EJB
     private CreditCalcServiceImpl creditCalcService;
-
-    @Getter @Setter
-    private boolean calcReady = false;
 
     @Override
     public void onMessage(Message message) {
@@ -63,15 +60,10 @@ public class Receiver implements MessageListener {
             }
             broadcastBean.setPaymentSchedule(creditCalcService
                     .issueCredit(broadcastBean.getClientName(), broadcastBean.getUser().getUserLogin(), payments));
-            calcReady = true;
         }
         catch (JMSException | DatatypeConfigurationException e) {
             e.printStackTrace();
         }
-    }
-
-    public String toSchedule() {
-        return "/jsf/SchedulePaymentsView.xhtml?faces-redirect=true";
     }
 
 }

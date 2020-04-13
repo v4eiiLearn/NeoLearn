@@ -21,6 +21,7 @@ import javax.xml.datatype.DatatypeFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @MessageDriven(name = "Receiver", activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationLookup",
@@ -55,7 +56,7 @@ public class Receiver implements MessageListener {
             for (Payment value : paymentList) {
                 finalList.add(new PaymentSer(value));
             }
-            sender.sendMessage(finalList);
+            sender.sendMessage(finalList, message.getJMSCorrelationID());
         }
         catch (JMSException | IOException | CreditDataException | DatatypeConfigurationException e) {
             e.printStackTrace();

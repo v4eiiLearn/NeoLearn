@@ -21,9 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 @ManagedBean(name = "ccViewBean")
 @ViewScoped
@@ -35,6 +33,8 @@ public class CreditCalcBean {
     private UserRepository userRepository;
     @EJB
     private BroadcastBean broadcastBean;
+    @EJB
+    private Sender sender;
 
     @Getter @Setter
     private Long price;
@@ -50,12 +50,10 @@ public class CreditCalcBean {
     private boolean showIssueFields;
     @Getter @Setter
     private String clientName;
-
-    @EJB
-    private Sender sender;
-
     @Getter @Setter
     private List<Payment> paymentList;
+    @Getter @Setter
+    private String correlationID;
 
     @PostConstruct
     public void init() {
@@ -104,7 +102,8 @@ public class CreditCalcBean {
             c.setTerm(term);
             c.setPrice(new BigDecimal(price));
             broadcastBean.setClientName(clientName);
-            sender.sendMessage(c);
+            correlationID = UUID.randomUUID().toString();
+            sender.sendMessage(c, correlationID);
             return "/jsf/WaitPageView?faces-redirect=true";
         }
         catch (DatatypeConfigurationException e) {

@@ -21,9 +21,10 @@ public class Sender {
     @Inject
     private JMSContext context;
 
-    public void sendMessage(List<PaymentSer> paymentList) {
+    public void sendMessage(List<PaymentSer> paymentList, String correlationID) {
         ObjectMessage mapMessage = context.createObjectMessage();
         try {
+            mapMessage.setJMSCorrelationID(correlationID);
             mapMessage.setObject((ArrayList<PaymentSer>) paymentList);
             context.createProducer().send(queue, mapMessage);
         }
