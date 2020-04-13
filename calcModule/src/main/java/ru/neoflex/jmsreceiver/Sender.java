@@ -25,6 +25,7 @@ public class Sender {
         ObjectMessage mapMessage = context.createObjectMessage();
         try {
             mapMessage.setJMSCorrelationID(correlationID);
+            mapMessage.setObjectProperty("corID", correlationID);
             mapMessage.setObject((ArrayList<PaymentSer>) paymentList);
             context.createProducer().send(queue, mapMessage);
         }

@@ -6,6 +6,7 @@ import payments.schema.Credit;
 import payments.schema.Payment;
 import ru.neoflex.entity.CreditProduct;
 import ru.neoflex.entity.User;
+import ru.neoflex.managedBean.jms.Receiver;
 import ru.neoflex.managedBean.jms.Sender;
 import ru.neoflex.repository.UserRepository;
 import ru.neoflex.service.CreditProductServiceImpl;
@@ -16,6 +17,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.jms.QueueSession;
+import javax.jms.Session;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -102,7 +105,7 @@ public class CreditCalcBean {
             c.setTerm(term);
             c.setPrice(new BigDecimal(price));
             broadcastBean.setClientName(clientName);
-            correlationID = UUID.randomUUID().toString();
+            correlationID = "08f7647d-8517-4fe6-80e8-0f7b2922bd66";//UUID.randomUUID().toString();
             sender.sendMessage(c, correlationID);
             return "/jsf/WaitPageView?faces-redirect=true";
         }

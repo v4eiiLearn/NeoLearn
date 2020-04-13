@@ -27,6 +27,7 @@ public class Sender {
         CreditSer cs = new CreditSer(credit);
         try {
             objectMessage.setJMSCorrelationID(correlationID);
+            objectMessage.setObjectProperty("corID", correlationID);
             objectMessage.setObject(cs);
             context.createProducer().send(queue, objectMessage);
         }

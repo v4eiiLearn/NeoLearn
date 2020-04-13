@@ -25,12 +25,11 @@ import java.util.List;
         @ActivationConfigProperty(propertyName = "destinationType",
                 propertyValue = "javax.jms.Queue"),
         @ActivationConfigProperty(propertyName = "acknowledgeMode",
-                propertyValue = "Auto-acknowledge")
-        /*,
-        @ActivationConfigProperty(propertyName = "correlationID",
-                propertyValue = "#{ccViewBean.correlationID}")*/
+                propertyValue = "Auto-acknowledge"),
+        @ActivationConfigProperty(propertyName = "messageSelector",
+                propertyValue = "JMSCorrelationID = '08f7647d-8517-4fe6-80e8-0f7b2922bd66'")
 })
-@ManagedBean(name = "beand")
+@ManagedBean
 @ApplicationScoped
 public class Receiver implements MessageListener {
 
