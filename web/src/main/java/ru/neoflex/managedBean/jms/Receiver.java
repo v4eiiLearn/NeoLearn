@@ -26,6 +26,8 @@ import java.util.List;
                 propertyValue = "javax.jms.Queue"),
         @ActivationConfigProperty(propertyName = "acknowledgeMode",
                 propertyValue = "Auto-acknowledge"),
+
+        //TODO: Как передать сюда значение из CreditCalcBean.correlationID
         @ActivationConfigProperty(propertyName = "messageSelector",
                 propertyValue = "JMSCorrelationID = '08f7647d-8517-4fe6-80e8-0f7b2922bd66'")
 })

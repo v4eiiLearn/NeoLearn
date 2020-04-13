@@ -105,7 +105,8 @@ public class CreditCalcBean {
             c.setTerm(term);
             c.setPrice(new BigDecimal(price));
             broadcastBean.setClientName(clientName);
-            correlationID = "08f7647d-8517-4fe6-80e8-0f7b2922bd66";//UUID.randomUUID().toString();
+            // TODO: corrID init
+            correlationID = "08f7647d-8517-4fe6-80e8-0f7b2922bd66"; //UUID.randomUUID().toString();
             sender.sendMessage(c, correlationID);
             return "/jsf/WaitPageView?faces-redirect=true";
         }
