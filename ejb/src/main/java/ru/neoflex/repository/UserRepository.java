@@ -5,8 +5,6 @@ import ru.neoflex.entity.User;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
-import javax.ejb.Stateless;
-import javax.faces.bean.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -14,7 +12,6 @@ import javax.persistence.Query;
 import java.util.List;
 
 @Stateful
-@RequestScoped
 @LocalBean
 public class UserRepository implements Dao<User> {
 
